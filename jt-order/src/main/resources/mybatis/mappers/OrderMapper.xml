@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jt.order.mapper.OrderMapper" >
+  	<select id="findOrderById" resultMap="orderRM">
+  		select * from tb_order
+  		where order_id=#{orderId}
+  	
+  	</select>
+  	<resultMap type="Order" id="orderRM" autoMapping="true">
+  		<id column="order_id" property="orderId"/>
+  		<association property="orderShipping" column="order_id" javaType="OrderShipping" select="findOrderShipping"/>
+  		<collection property="orderItems" column="order_id" ofType="OrderItem" select="findOrderItem"/>
+  	</resultMap>
+  	<select id="findOrderShipping" resultType="OrderShipping">
+  		select * from tb_order_shipping
+  		where order_id=#{orderId}
+  	
+  	</select>
+  	<select id="findOrderItem" resultType="OrderItem">
+  		select * from tb_order_item
+  		where order_id=#{orderId}
+  	
+  	</select>
+</mapper>
